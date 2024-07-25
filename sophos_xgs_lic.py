@@ -89,8 +89,16 @@ def check_sophos_xgs_lic(section):
             licname = "Enhanced Plus Support"
         elif c1 == 9:
             licname = "Central Orchestration"
+        
+        if statename == "Expired":
+            statename = statename + " (since " + lic_exp[c1 - 1] + ")"
 
-        sum1 = sum1 + "\n" + licname + ": " + statename + "     >>>>>     Exp. date: " + lic_exp[c1 - 1]
+        lic_exp_t = lic_exp[c1 - 1]
+
+        if lic_exp_t == "fail":
+            lic_exp_t = "Unknown"
+
+        sum1 = sum1 + "\n" + "----------------------------------------------------------------------------------------------------------" + "\n" + licname + ": " + statename + " >>>>> Exp. date: " + lic_exp_t
 
 
 
@@ -101,7 +109,7 @@ def check_sophos_xgs_lic(section):
     elif s == State.CRIT:
         summarytext = "Some Licences are expired"
     else:
-        summarytext = "Something is wrong"
+        summarytext = "Something is wrong with your Licences"
 
     summarydetails = sum1
 
