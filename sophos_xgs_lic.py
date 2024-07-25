@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import datetime
 from .agent_based_api.v1 import (
     all_of,
     startswith,
@@ -90,20 +91,28 @@ def check_sophos_xgs_lic(section):
         elif c1 == 9:
             licname = "Central Orchestration"
         
-        if statename == "Expired":
-            statename = statename + " (since " + lic_exp[c1 - 1] + ")"
-
         lic_exp_t = lic_exp[c1 - 1]
+
+        now = datetime.datetime.now()
+        try:
+            lic_exp_d = datetime.datetime.strptime(lic_exp_t, "%b %d %Y")
+
+            lic_delta = lic_exp_d - now
+            lic_delta = str(lic_delta).split(" ", 1)[0]
+        except:
+            continue
+
+        if statename == "Expired":
+            statename = statename + " (since " + lic_exp_t + ")"
+
+        if statename == "Subscribed":
+            statename = statename + " (" + lic_delta + " days to go)"
 
         if lic_exp_t == "fail":
             lic_exp_t = "Unknown"
 
         sum1 = sum1 + "\n" + "----------------------------------------------------------------------------------------------------------" + "\n" + licname + ": " + statename + " >>>>> Exp. date: " + lic_exp_t
-
-
-
-
-
+  
     if s == State.OK:
         summarytext = "All Licences are fine"
     elif s == State.CRIT:
