@@ -1,3 +1,8 @@
+/local/lib/check_mk/base/plugins/agent_based
+/local/share/check_mk/web/plugins/wato
+
+
+
 +++++GENERAL+++++
 cp /home/sinus/sophos_xgs_general.py local/lib/check_mk/base/plugins/agent_based/
 
