@@ -27,24 +27,83 @@ def check_sophos_xgs_lic(section):
     webprot_exp = section[0][5]
     email_state = section[0][6]
     email_exp = section[0][7]
-    websrv_state = section[0][8]
+    websvr_state = section[0][8]
     websvr_exp = section[0][9]
     zeroday_state = section[0][10]
     zeroday_exp = section[0][11]
-    enhprot_state = section[0][12]
-    enhprot_exp = section[0][13]
-    enhprotplus_state = section[0][14]
-    enhprotplus_exp = section[0][15]
+    enhsup_state = section[0][12]
+    enhsup_exp = section[0][13]
+    enhplussup_state = section[0][14]
+    enhplussup_exp = section[0][15]
     centorch_state = section[0][16]
     centorch_exp = section[0][17]
     
+    lic_states = [basefw_state, network_state, webprot_state, email_state, websvr_state, zeroday_state, enhsup_state, enhplussup_state, centorch_state]
+    lic_exp = [basefw_exp, network_exp, webprot_exp, email_exp, websvr_exp, zeroday_exp, enhsup_exp, enhplussup_exp, centorch_exp]
+
+    sum1 = "Licence States: "
+
+    c1 = 0
+
+    #s = State.OK
+
+    if "4" in lic_states:
+        s = State.CRIT
+    elif "4" not in lic_states:
+        s = State.OK
+    else:
+        s = State.WARN
+
+    for e in lic_states:
+        c1 += 1
+        if e == "0":
+            statename ="None"
+        elif e == "1":
+            statename = "Evaluation"
+        elif e == "2":
+            statename = "Not Subscribed"
+        elif e == "3":
+            statename = "Subscribed"
+        elif e == "4":
+            statename = "Expired"
+        elif e == "5":
+            statename = "Deactivated"
+        else:
+            statename = "Unknown"
+
+        if c1 == 1:
+            licname = "Base Firewall"
+        elif c1 == 2:
+            licname = "Network Protection"
+        elif c1 == 3:
+            licname = "Web Protection"
+        elif c1 == 4:
+            licname = "Email Protection"
+        elif c1 == 5:
+            licname = "Web Server Protection"
+        elif c1 == 6:
+            licname = "Zeroday Protection"
+        elif c1 == 7:
+            licname = "Enhanced Support"
+        elif c1 == 8:
+            licname = "Enhanced Plus Support"
+        elif c1 == 9:
+            licname = "Central Orchestration"
+
+        sum1 = sum1 + "\n" + licname + ": " + statename + "     >>>>>     Exp. date: " + lic_exp[c1 - 1]
+
+
+
+
 
     if s == State.OK:
-        summarytext = ""
+        summarytext = "All Licences are fine"
+    elif s == State.CRIT:
+        summarytext = "Some Licences are expired"
     else:
-        summarytext = ""
+        summarytext = "Something is wrong"
 
-    summarydetails = ""
+    summarydetails = sum1
 
     yield Result(state=s, summary = f"{summarytext}", details = summarydetails)
 
@@ -63,7 +122,7 @@ register.snmp_section(
 register.check_plugin(
     name = "sophos_xgs_lic",
     sections = [ "sophos_xgs_lic_s" ],
-    service_name = "_Sophos HA Info",
+    service_name = "_Sophos Licence Info",
     discovery_function = discover_sophos_xgs_lic,
     check_function = check_sophos_xgs_lic,
 )

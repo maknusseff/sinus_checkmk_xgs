@@ -18,3 +18,14 @@ cmk -vI --detect-plugins=sophos_xgs_ha MHL-FW-BE
 cmk -v --detect-plugins=sophos_xgs_ha MHL-FW-BE
 
 cmk -R
+
+
++++++LICENCES+++++
+cp /home/sinus/sophos_xgs_lic.py local/lib/check_mk/base/plugins/agent_based/
+
+cmk -vI --detect-plugins=sophos_xgs_lic MHL-FW-FE
+cmk -v --detect-plugins=sophos_xgs_lic MHL-FW-FE
+cmk -vI --detect-plugins=sophos_xgs_lic MHL-FW-BE
+cmk -v --detect-plugins=sophos_xgs_lic MHL-FW-BE
+
+cmk -R
