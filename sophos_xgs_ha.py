@@ -64,11 +64,11 @@ def check_sophos_xgs_ha(section):
     
 
     if s == State.OK:
-        summarytext = "HA is configured and working fine"  
+        summarytext = "HA is configured and working fine"
     else:
         summarytext = "Something is wrong with the HA configuration"
 
-    summarydetails = "HA State: " + hastatename + "\n\n" + "SN device 1: " + serial_devone + "\n" + "State device 1: " + state_devone_name + "\n\n" + "SN device 2: " + serial_devtwo + "\n" + "State device 2: " + state_devtwo_name + "\n" + "Cluster Type: " + clustertype + "\n" + "HA Port: " + clusterport + "\n" + "IP devone: " + ip_devone + "\n" + "IP devtwo: " + ip_devtwo
+    summarydetails = "HA State: " + hastatename + "\n" + "---------------------------------" + "\n" + "SN device 1: " + serial_devone + "\n" + "IP devone: " + ip_devone  + "\n" + "State device 1: " + state_devone_name + "\n\n" + "SN device 2: " + serial_devtwo + "\n" + "IP devtwo: " + ip_devtwo + "\n" + "State device 2: " + state_devtwo_name + "\n" + "---------------------------------" + "\n" + "Cluster Type: " + clustertype + "\n" + "HA Port: " + clusterport
 
     yield Result(state=s, summary = f"{summarytext}", details = summarydetails)
 
