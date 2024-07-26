@@ -42,7 +42,7 @@ def check_sophos_xgs_lic(section):
     lic_states = [basefw_state, network_state, webprot_state, email_state, websvr_state, zeroday_state, enhsup_state, enhplussup_state, centorch_state]
     lic_exp = [basefw_exp, network_exp, webprot_exp, email_exp, websvr_exp, zeroday_exp, enhsup_exp, enhplussup_exp, centorch_exp]
 
-    sum1 = "Licence States: "
+    sum1 = "License states: "
 
     c1 = 0
 
@@ -114,11 +114,11 @@ def check_sophos_xgs_lic(section):
         sum1 = sum1 + "\n" + "----------------------------------------------------------------------------------------------------------" + "\n" + licname + ": " + statename + " >>>>> Exp. date: " + lic_exp_t
   
     if s == State.OK:
-        summarytext = "All Licences are fine"
+        summarytext = "All licenses are fine"
     elif s == State.CRIT:
-        summarytext = "Some Licences are expired"
+        summarytext = "Some licenses are expired"
     else:
-        summarytext = "Something is wrong with your Licences"
+        summarytext = "Something is wrong with your licenses"
 
     summarydetails = sum1
 
@@ -139,7 +139,7 @@ register.snmp_section(
 register.check_plugin(
     name = "sophos_xgs_lic",
     sections = [ "sophos_xgs_lic_s" ],
-    service_name = "_Sophos Licence Info",
+    service_name = "_Sophos License Info",
     discovery_function = discover_sophos_xgs_lic,
     check_function = check_sophos_xgs_lic,
 )
